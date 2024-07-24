@@ -29,7 +29,7 @@ export class Article {
     this.articleContainer.append(this.contentElement);
     this.articleContainer.append(this.editButton);
     this.articleContainer.append(this.deleteButton);
-    this.app.appWrapper.append(this.articleContainer);
+    this.app.articlesWrapper.append(this.articleContainer);
   }
 
   initializeDeleteButton() {
@@ -46,9 +46,9 @@ export class Article {
       },
     );
     if (deleteResponse.status === 200) {
-      this.app.refresh();
+      this.app.refreshArticles();
     } else {
-      this.app.appWrapper.innerText = "Server error.";
+      this.app.articlesWrapper.innerText = "Server error.";
     }
   };
 
@@ -101,7 +101,7 @@ export class Article {
     } else if (editResponse.status === 404) {
       this.errorMessageEdit.innerText = "Server error.";
     } else if (editResponse.status === 200) {
-      this.app.refresh();
+      this.app.refreshArticles();
     }
   };
 }

@@ -1,7 +1,7 @@
 export class Article {
-  constructor(articleData) {
-    this.appWrapper = document.querySelector("#app");
+  constructor(articleData, app) {
     this.articleData = articleData;
+    this.app = app
     this.articleContainer = null;
     this.editButton = null;
     this.deleteButton = null;
@@ -23,6 +23,7 @@ export class Article {
     this.articleContainer.append(contentElement);
     this.articleContainer.append(this.editButton);
     this.articleContainer.append(this.deleteButton);
-    this.appWrapper.append(this.articleContainer);
+    this.app.appWrapper.append(this.articleContainer);
   }
+
 }

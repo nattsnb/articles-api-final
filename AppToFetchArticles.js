@@ -4,7 +4,8 @@ import { NewArticleInput } from "./NewArticleInput.js";
 export class AppToFetchArticles {
   constructor(serverAddress) {
     this.serverAddress = serverAddress;
-    this.appWrapper = document.querySelector("#app");
+    this.articlesWrapper = document.querySelector("#articles-wrapper");
+    this.inputWrapper = document.querySelector("#input-wrapper");
     this.fetchedArticlesArray = [];
     this.createNewArticleInput();
     this.fetchDataAndCreateArticles();
@@ -17,11 +18,11 @@ export class AppToFetchArticles {
         const article = new Article(articleData, this);
       }
     } else {
-      this.appWrapper.innerText = "Server error.";
+      this.articlesWrapper.innerText = "Server error.";
     }
   };
-  refresh() {
-    this.appWrapper.innerText = "";
+  refreshArticles() {
+    this.articlesWrapper.innerText = "";
     this.fetchDataAndCreateArticles();
   }
   createNewArticleInput() {

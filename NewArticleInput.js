@@ -19,8 +19,7 @@ export class NewArticleInput {
     this.newArticleForm.append(this.contentInput);
     this.newArticleForm.append(sendButton);
     this.newArticleForm.append(this.errorMessage);
-    console.log(this.newArticleForm);
-    this.app.appWrapper.append(this.newArticleForm);
+    this.app.inputWrapper.append(this.newArticleForm);
   }
   initializeNewArticleForm() {
     this.newArticleForm.addEventListener("submit", (event) => {
@@ -48,8 +47,13 @@ export class NewArticleInput {
     } else if (postResponse.status === 404) {
       this.errorMessage.innerText = "Error, server doesn't exist.";
     } else if (postResponse.status === 201) {
-      this.app.refresh();
-      this.errorMessage = "Article posted.";
+      this.errorMessage.innerText = "Article posted.";
+      this.app.refreshArticles();
+      this.refreshInput();
     }
   };
+  refreshInput() {
+    this.titleInput.value = "";
+    this.contentInput.value = "";
+  }
 }

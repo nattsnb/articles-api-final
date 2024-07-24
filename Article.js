@@ -1,11 +1,12 @@
 export class Article {
   constructor(articleData, app) {
     this.articleData = articleData;
-    this.app = app
+    this.app = app;
     this.articleContainer = null;
     this.editButton = null;
     this.deleteButton = null;
     this.createNewArticle();
+    this.initializeDeleteButton();
   }
   createNewArticle() {
     this.articleContainer = document.createElement("div");
@@ -25,5 +26,24 @@ export class Article {
     this.articleContainer.append(this.deleteButton);
     this.app.appWrapper.append(this.articleContainer);
   }
-
+  initializeDeleteButton() {
+    const id = this.articleData.id;
+    this.deleteButton.addEventListener(
+      "click",
+      this.askServerToDeleteArticleAndRefresh,
+    );
+  }
+  askServerToDeleteArticleAndRefresh = async () => {
+    const deleteResponse = await fetch(
+      `http://localhost:3000/articles/${this.articleData.id}`,
+      {
+        method: "DELETE",
+      },
+    );
+    if (deleteResponse.status === 200) {
+      this.app.refresh();
+    } else {
+      this.app.appWrapper.innerText = "Server error.";
+    }
+  };
 }

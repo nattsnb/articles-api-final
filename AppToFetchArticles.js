@@ -12,11 +12,14 @@ export class AppToFetchArticles {
     if (fetchedData.status === 200) {
       this.fetchedArticlesArray = await fetchedData.json();
       for (const articleData of this.fetchedArticlesArray) {
-        const article = new Article(articleData, this)
+        const article = new Article(articleData, this);
       }
     } else {
       this.appWrapper.innerText = "Server error.";
     }
   };
-
+  refresh() {
+    this.appWrapper.innerText = "";
+    this.fetchDataAndCreateArticles();
+  }
 }

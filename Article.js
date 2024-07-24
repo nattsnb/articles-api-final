@@ -60,12 +60,14 @@ export class Article {
     this.editForm = document.createElement("form");
     this.editForm.setAttribute("id", "edit-form");
     this.editTitleInput = document.createElement("input");
+    this.editTitleInput.placeholder = "Title";
     this.editTitleInput.value = this.articleData.title;
     this.editContentInput = document.createElement("input");
+    this.editContentInput.placeholder = "Content";
     this.editContentInput.value = this.articleData.content;
     const sendEditedArticleButton = document.createElement("button");
     sendEditedArticleButton.innerText = "Save edit";
-    this.errorMessageEdit = document.createElement("p");
+    this.errorMessageEdit = document.createElement("h4");
     this.editForm.append(this.editTitleInput);
     this.editForm.append(this.editContentInput);
     this.editForm.append(sendEditedArticleButton);

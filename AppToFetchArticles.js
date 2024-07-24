@@ -1,10 +1,12 @@
 import { Article } from "./Article.js";
+import { NewArticleInput } from "./NewArticleInput.js";
 
 export class AppToFetchArticles {
   constructor(serverAddress) {
     this.serverAddress = serverAddress;
     this.appWrapper = document.querySelector("#app");
     this.fetchedArticlesArray = [];
+    this.createNewArticleInput();
     this.fetchDataAndCreateArticles();
   }
   fetchDataAndCreateArticles = async () => {
@@ -21,5 +23,8 @@ export class AppToFetchArticles {
   refresh() {
     this.appWrapper.innerText = "";
     this.fetchDataAndCreateArticles();
+  }
+  createNewArticleInput() {
+    this.newArticleInput = new NewArticleInput(this);
   }
 }

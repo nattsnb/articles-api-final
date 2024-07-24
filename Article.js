@@ -58,6 +58,7 @@ export class Article {
 
   replaceArticleWithEditForm = () => {
     this.editForm = document.createElement("form");
+    this.editForm.setAttribute("id", "edit-form");
     this.editTitleInput = document.createElement("input");
     this.editTitleInput.value = this.articleData.title;
     this.editContentInput = document.createElement("input");

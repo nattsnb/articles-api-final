@@ -10,6 +10,7 @@ export class NewArticleInput {
   }
   createNewArticleForm() {
     this.newArticleForm = document.createElement("form");
+    this.newArticleForm.setAttribute("id", "new-article-form");
     this.titleInput = document.createElement("input");
     this.contentInput = document.createElement("input");
     const sendButton = document.createElement("button");

@@ -1,22 +1,21 @@
 import { Article } from "./Article.js";
 
 export class AppToFetchArticles {
-  constructor(serverAddress, appWrapper) {
+  constructor(serverAddress) {
     this.serverAddress = serverAddress;
+    this.appWrapper = document.querySelector("#app");
     this.fetchedArticlesArray = [];
-    this.fetchArticlesAndDisplay(appWrapper);
+    this.fetchDataAndCreateArticles();
   }
-  fetchArticlesAndDisplay = async (appWrapper) => {
+  fetchDataAndCreateArticles = async () => {
     const fetchedData = await fetch(this.serverAddress);
     if (fetchedData.status === 200) {
       this.fetchedArticlesArray = await fetchedData.json();
       this.fetchedArticlesArray.forEach(function (articleData) {
         const article = new Article(articleData);
-        const articleInContainer = article.articleContainer;
-        appWrapper.append(articleInContainer);
       });
     } else {
-      appWrapper.innerText = "Server error.";
+      this.appWrapper.innerText = "Server error.";
     }
   };
 }

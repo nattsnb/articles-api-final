@@ -1,9 +1,10 @@
 export class Article {
   constructor(articleData) {
+    this.appWrapper = document.querySelector("#app");
     this.articleData = articleData;
     this.articleContainer = null;
     this.editButton = null;
-    this.deleteButton = null
+    this.deleteButton = null;
     this.createNewArticle();
   }
   createNewArticle() {
@@ -22,6 +23,6 @@ export class Article {
     this.articleContainer.append(contentElement);
     this.articleContainer.append(this.editButton);
     this.articleContainer.append(this.deleteButton);
-    return this.articleContainer;
+    this.appWrapper.append(this.articleContainer);
   }
 }

@@ -28,5 +28,28 @@ export class NewArticleInput {
       this.postNewArticle();
     });
   }
-  postNewArticle() {}
+  postNewArticle = async () => {
+    const dataToSend = {
+      title: this.titleInput.value,
+      content: this.contentInput.value,
+    };
+    const postResponse = await fetch("http://localhost:3000/articles/", {
+      method: "POST",
+      body: JSON.stringify(dataToSend),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (postResponse.status === 400) {
+      this.errorMessage.innerText = "Error, provide data.";
+    } else if (postResponse.status === 409) {
+      this.errorMessage.innerText =
+        "Error, article with this title already exists.";
+    } else if (postResponse.status === 404) {
+      this.errorMessage.innerText = "Error, server doesn't exist.";
+    } else if (postResponse.status === 201) {
+      this.app.refresh();
+      this.errorMessage = "Article posted.";
+    }
+  };
 }

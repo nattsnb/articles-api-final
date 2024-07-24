@@ -4,14 +4,16 @@ export class AppToFetchArticles{
     constructor(serverAddress, appWrapper) {
         this.serverAddress = serverAddress
         this.appWrapper = appWrapper
+        this.fetchArticles()
+        this.fetchedArticlesArray = []
     }
-    fetchArticles() {
-        fetch(this.serverAddress)
-            .then((response) => response.json())
-            .then((data) => {
-                data.forEach(function (article) {
-                    displayFetchedArticle(article, this.appWrapper);
-                });
-            });
+    async fetchArticles  () {
+       const fetchedData = await fetch(this.serverAddress)
+        if(fetchedData.status === 200){
+            this.fetchedArticlesArray = await fetchedData.json()
+            console.log(this.fetchedArticlesArray)
+        } else {this.appWrapper.innerText = "Server error."}
+
+
     }
 }

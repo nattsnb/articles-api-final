@@ -10,6 +10,9 @@ export class Article {
     this.titleElement = null;
     this.contentElement = null;
     this.initializeEditButton();
+    this.editTitleInput = null;
+    this.editContentInput = null;
+    this.errorMessageEdit = null;
   }
   createNewArticle() {
     this.articleContainer = document.createElement("div");
@@ -28,6 +31,7 @@ export class Article {
     this.articleContainer.append(this.deleteButton);
     this.app.appWrapper.append(this.articleContainer);
   }
+
   initializeDeleteButton() {
     this.deleteButton.addEventListener(
       "click",
@@ -53,18 +57,51 @@ export class Article {
   };
 
   replaceArticleWithEditForm = () => {
-    const editForm = document.createElement("form");
-    const editTitleInput = document.createElement("input");
-    editTitleInput.value = this.articleData.title;
-    const editContentInput = document.createElement("input");
-    editContentInput.value = this.articleData.content;
+    this.editForm = document.createElement("form");
+    this.editTitleInput = document.createElement("input");
+    this.editTitleInput.value = this.articleData.title;
+    this.editContentInput = document.createElement("input");
+    this.editContentInput.value = this.articleData.content;
     const sendEditedArticleButton = document.createElement("button");
     sendEditedArticleButton.innerText = "Save edit";
-    const errorMessageEdit = document.createElement("p");
-    editForm.append(editTitleInput);
-    editForm.append(editContentInput);
-    editForm.append(sendEditedArticleButton);
-    editForm.append(errorMessageEdit);
-    this.articleContainer.replaceWith(editForm);
+    this.errorMessageEdit = document.createElement("p");
+    this.editForm.append(this.editTitleInput);
+    this.editForm.append(this.editContentInput);
+    this.editForm.append(sendEditedArticleButton);
+    this.editForm.append(this.errorMessageEdit);
+    this.articleContainer.replaceWith(this.editForm);
+    this.initializeSavingEditedArticle(this.editForm);
+  };
+
+  initializeSavingEditedArticle() {
+    this.editForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this.postEditedArticle();
+    });
+  }
+
+  postEditedArticle = async () => {
+    const dataToSend = {
+      id: this.articleData.id,
+      title: this.editTitleInput.value,
+      content: this.editContentInput.value,
+    };
+    const editResponse = await fetch(
+      `http://localhost:3000/articles/${this.articleData.id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(dataToSend),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    if (editResponse.status === 400) {
+      this.errorMessageEdit.innerText = "Error, provide data.";
+    } else if (editResponse.status === 404) {
+      this.errorMessageEdit.innerText = "Server error.";
+    } else if (editResponse.status === 200) {
+      this.app.refresh();
+    }
   };
 }

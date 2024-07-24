@@ -2,6 +2,8 @@ export class Article {
   constructor(articleData) {
     this.articleData = articleData;
     this.articleContainer = null;
+    this.editButton = null;
+    this.deleteButton = null
     this.createNewArticle();
   }
   createNewArticle() {
@@ -12,14 +14,14 @@ export class Article {
     titleElement.innerText = this.articleData.title;
     const contentElement = document.createElement("p");
     contentElement.innerText = this.articleData.content;
-    const editButton = document.createElement("button");
-    editButton.innerText = "Edit article";
-    const deleteEditedArticleButton = document.createElement("button");
-    deleteEditedArticleButton.innerText = "Delete article";
+    this.editButton = document.createElement("button");
+    this.editButton.innerText = "Edit article";
+    this.deleteButton = document.createElement("button");
+    this.deleteButton.innerText = "Delete article";
     this.articleContainer.append(titleElement);
     this.articleContainer.append(contentElement);
-    this.articleContainer.append(editButton);
-    this.articleContainer.append(deleteEditedArticleButton);
+    this.articleContainer.append(this.editButton);
+    this.articleContainer.append(this.deleteButton);
     return this.articleContainer;
   }
 }

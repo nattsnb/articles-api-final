@@ -4,9 +4,9 @@ export class AppToFetchArticles {
     constructor(serverAddress, appWrapper) {
         this.serverAddress = serverAddress
         this.fetchedArticlesArray = []
-        this.fetchArticles(appWrapper)
+        this.fetchArticlesAndDisplay(appWrapper)
     }
-    fetchArticles = async (appWrapper) => {
+    fetchArticlesAndDisplay = async (appWrapper) => {
        const fetchedData = await fetch(this.serverAddress)
         if(fetchedData.status === 200){
             this.fetchedArticlesArray = await fetchedData.json()

@@ -1,3 +1,5 @@
+import { Article } from "./Article.js";
+
 export class NewArticleInput {
   constructor(app) {
     this.app = app;
@@ -45,6 +47,7 @@ export class NewArticleInput {
         "Content-Type": "application/json",
       },
     });
+    const newArticleData = await postResponse.json();
     if (postResponse.status === 400) {
       this.errorMessage.innerText = "Error, provide data.";
     } else if (postResponse.status === 409) {
@@ -54,8 +57,8 @@ export class NewArticleInput {
       this.errorMessage.innerText = "Error, server doesn't exist.";
     } else if (postResponse.status === 201) {
       this.errorMessage.innerText = "Article posted.";
-      this.app.refreshArticles();
       this.refreshInput();
+      const newArticle = new Article(newArticleData, this.app);
     }
   };
   refreshInput() {

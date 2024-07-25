@@ -103,7 +103,10 @@ export class Article {
       this.errorMessageEdit.innerText = "Error, provide data.";
     } else if (editResponse.status === 404) {
       this.errorMessageEdit.innerText = "Server error.";
-    } else if (editResponse.status === 200) {
+    } else if (editResponse.status === 409) {
+      this.errorMessageEdit.innerText =
+          "Error, article with this title already exists.";
+    }  else if (editResponse.status === 200) {
       this.app.refreshArticles();
     }
   };

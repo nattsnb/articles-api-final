@@ -5,14 +5,14 @@ export class Article {
     this.articleContainer = null;
     this.editButton = null;
     this.deleteButton = null;
-    this.createNewArticle();
-    this.initializeDeleteButton();
     this.titleElement = null;
     this.contentElement = null;
-    this.initializeEditButton();
     this.editTitleInput = null;
     this.editContentInput = null;
     this.errorMessageEdit = null;
+    this.createNewArticle();
+    this.initializeDeleteButton();
+    this.initializeEditButton();
   }
   createNewArticle() {
     this.articleContainer = document.createElement("div");
@@ -46,7 +46,7 @@ export class Article {
       },
     );
     if (deleteResponse.status === 200) {
-      this.app.refreshArticles();
+      this.articleContainer.remove();
     } else {
       this.app.articlesWrapper.innerText = "Server error.";
     }
@@ -57,15 +57,18 @@ export class Article {
   };
 
   replaceArticleWithEditForm = () => {
+    this.isBeingEdited = true;
     this.editForm = document.createElement("form");
     this.editForm.setAttribute("id", "edit-form");
     this.editTitleInput = document.createElement("input");
+    this.editTitleInput.placeholder = "Title";
     this.editTitleInput.value = this.articleData.title;
     this.editContentInput = document.createElement("input");
+    this.editContentInput.placeholder = "Content";
     this.editContentInput.value = this.articleData.content;
     const sendEditedArticleButton = document.createElement("button");
     sendEditedArticleButton.innerText = "Save edit";
-    this.errorMessageEdit = document.createElement("p");
+    this.errorMessageEdit = document.createElement("h4");
     this.editForm.append(this.editTitleInput);
     this.editForm.append(this.editContentInput);
     this.editForm.append(sendEditedArticleButton);
@@ -101,8 +104,13 @@ export class Article {
       this.errorMessageEdit.innerText = "Error, provide data.";
     } else if (editResponse.status === 404) {
       this.errorMessageEdit.innerText = "Server error.";
+    } else if (editResponse.status === 409) {
+      this.errorMessageEdit.innerText =
+        "Error, article with this title already exists.";
     } else if (editResponse.status === 200) {
-      this.app.refreshArticles();
+      this.titleElement.innerText = dataToSend.title;
+      this.contentElement.innerText = dataToSend.content;
+      this.editForm.replaceWith(this.articleContainer);
     }
   };
 }

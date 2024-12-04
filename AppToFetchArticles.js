@@ -21,10 +21,7 @@ export class AppToFetchArticles {
       this.articlesWrapper.innerText = "Server error.";
     }
   };
-  refreshArticles() {
-    this.articlesWrapper.innerText = "";
-    this.fetchDataAndCreateArticles();
-  }
+
   createNewArticleInput() {
     this.newArticleInput = new NewArticleInput(this);
   }
